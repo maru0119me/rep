@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイト遷移ボタン</title>
+    <style>
+        /* ボタンのスタイル */
+        button {
+            padding: 20px 40px; /* ボタンの大きさを調整 */
+            font-size: 20px;
+        }
+
+        /* 広告コンテナのスタイル（最初は非表示） */
+        #adContainer {
+            display: none; /* 最初は広告を非表示 */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 336px;
+            height: 280px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        /* 広告画像のスタイル */
+        #adImage {
+            width: 100%;
+            height: auto;
+        }
+
+        /* 閉じるボタンのスタイル */
+        #closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 背景を半透明にするオーバーレイ */
+        #overlay {
+            display: none; /* 最初は非表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+    <script>
+        let clickCount = 0;
+
+        function handleClick() {
+            clickCount++;
+            switch (clickCount) {
+                case 1:
+                    window.location.href = 'https://mttag.com/s/CiZVB7kTGDI'; // 1つ目のサイト
+                    break;
+                case 2:
+                    window.location.href = 'https://mttag.com/s/GSGJtTHdqQ8'; // 2つ目のサイト
+                    break;
+                case 3:
+                    window.location.href = 'https://mttag.com/s/9wqUORZeW4I'; // 目当てのサイト
+                    break;
+                case 4:
+                    window.location.href = 'https://d.kuku.lu/ek5fchjwg'; // 4つ目のサイト
+                    break;
+                default:
+                    clickCount = 0; // クリック数リセット
+            }
+            // 広告を表示
+            document.getElementById("adContainer").style.display = "block";
+            document.getElementById("overlay").style.display = "block"; // オーバーレイも表示
+        }
+
+        function closeAd() {
+            // 広告とオーバーレイを非表示にする
+            document.getElementById("adContainer").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <button onclick="handleClick()">サイトに移動</button>
+
+    <!-- 背景オーバーレイ -->
+    <div id="overlay"></div>
+
+    <!-- 広告コンテナ -->
+    <div id="adContainer">
+        <!-- 閉じるボタン -->
+        <button id="closeButton" onclick="closeAd()">×</button>
+        <!-- 広告画像 -->
+        <a href='https://mttag.com/s/9wqUORZeW4I' rel='nofollow'>
+            <img id="adImage" src='https://mttag.com/banner/9wqUORZeW4I' alt='アフィリエイトASPのマネートラック' border='0' />
+        </a>
+    </div>
+</body>
+</html>
