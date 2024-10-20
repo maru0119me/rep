@@ -3,109 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>サイト遷移ボタン</title>
+    <title>中央・横からスライドするポップアップ広告</title>
     <style>
-        /* ボタンのスタイル */
-        button {
-            padding: 20px 40px; /* ボタンの大きさを調整 */
-            font-size: 20px;
+        /* 広告の共通スタイル */
+        .popup {
+            position: fixed;
+            width: 300px;
+            height: 250px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s;
+            z-index: 1000;
+            overflow: hidden;
         }
 
-        /* 広告コンテナのスタイル（最初は非表示） */
-        #adContainer {
-            display: none; /* 最初は広告を非表示 */
-            position: fixed;
+        /* 左側から出てくる */
+        .popup-left {
+            top: 20px;
+            left: -350px;
+        }
+
+        /* 右側から出てくる */
+        .popup-right {
+            top: 20px;
+            right: -350px;
+        }
+
+        /* 中央から出てくる */
+        .popup-center {
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 336px;
-            height: 280px;
-            background-color: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: 10px;
+            transform: translate(-50%, -50%) scale(0);
         }
 
-        /* 広告画像のスタイル */
-        #adImage {
-            width: 100%;
-            height: auto;
+        /* 表示されるときの状態 */
+        .show-left {
+            transform: translateX(350px);
         }
 
-        /* 閉じるボタンのスタイル */
-        #closeButton {
+        .show-right {
+            transform: translateX(-350px);
+        }
+
+        .show-center {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* ×ボタンのスタイル */
+        .close-btn {
             position: absolute;
-            top: 10px;
+            top: 5px;
             right: 10px;
-            background-color: red;
+            background-color: #ff0000;
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 16px;
+            padding: 5px 10px;
             cursor: pointer;
         }
 
-        /* 背景を半透明にするオーバーレイ */
-        #overlay {
-            display: none; /* 最初は非表示 */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+        /* ボタンのスタイル */
+        .show-ad-btn {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
     <script>
-        let clickCount = 0;
+        // 初期広告の表示を制御
+        window.onload = function() {
+            setTimeout(() => {
+                showAd(1, 'left'); // 最初の広告を左から表示
+                showAd(2, 'right'); // 2つ目の広告を右から表示
+            }, 1000); // ページ読み込みから1秒後に最初の広告を表示
+        };
 
-        function handleClick() {
-            clickCount++;
-            switch (clickCount) {
-                case 1:
-                    window.location.href = 'https://mttag.com/s/CiZVB7kTGDI'; // 1つ目のサイト
-                    break;
-                case 2:
-                    window.location.href = 'https://mttag.com/s/GSGJtTHdqQ8'; // 2つ目のサイト
-                    break;
-                case 3:
-                    window.location.href = 'https://mttag.com/s/9wqUORZeW4I'; // 目当てのサイト
-                    break;
-                case 4:
-                    window.location.href = 'https://d.kuku.lu/ek5fchjwg'; // 4つ目のサイト
-                    break;
-                default:
-                    clickCount = 0; // クリック数リセット
-            }
-            // 広告を表示
-            document.getElementById("adContainer").style.display = "block";
-            document.getElementById("overlay").style.display = "block"; // オーバーレイも表示
+        // 広告を表示する関数
+        function showAd(adNumber, side) {
+            document.getElementById('popup' + adNumber).classList.add('show-' + side);
         }
 
-        function closeAd() {
-            // 広告とオーバーレイを非表示にする
-            document.getElementById("adContainer").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
+        // 広告を閉じる関数
+        function closeAd(adNumber, side) {
+            document.getElementById('popup' + adNumber).classList.remove('show-' + side);
+        }
+
+        // ボタンを押したときに広告を表示する関数
+        function triggerAd(adNumber, side) {
+            showAd(adNumber, side);
         }
     </script>
 </head>
 <body>
-    <button onclick="handleClick()">サイトに移動</button>
 
-    <!-- 背景オーバーレイ -->
-    <div id="overlay"></div>
+<!-- 広告1 (左からスライド) -->
+<div id="popup1" class="popup popup-left">
+    <button class="close-btn" onclick="closeAd(1, 'left')">×</button>
+    <a href='https://mttag.com/s/Zpfy1gln94w' rel='nofollow'>
+        <img src='https://mttag.com/banner/Zpfy1gln94w' alt='' width='100%' height='100%' />
+    </a>
+</div>
 
-    <!-- 広告コンテナ -->
-    <div id="adContainer">
-        <!-- 閉じるボタン -->
-        <button id="closeButton" onclick="closeAd()">×</button>
-        <!-- 広告画像 -->
-        <a href='https://mttag.com/s/9wqUORZeW4I' rel='nofollow'>
-            <img id="adImage" src='https://mttag.com/banner/9wqUORZeW4I' alt='アフィリエイトASPのマネートラック' border='0' />
-        </a>
-    </div>
+<!-- 広告2 (右からスライド) -->
+<div id="popup2" class="popup popup-right">
+    <button class="close-btn" onclick="closeAd(2, 'right')">×</button>
+    <a href='https://mttag.com/s/GSGJtTHdqQ8' rel='nofollow'>
+        <img src='https://mttag.com/banner/GSGJtTHdqQ8' alt='' width='100%' height='100%' />
+    </a>
+</div>
+
+<!-- 広告3 (中央からスライド) -->
+<div id="popup3" class="popup popup-center">
+    <button class="close-btn" onclick="closeAd(3, 'center')">×</button>
+    <a href='https://mttag.com/s/3blDq-hFqQg' rel='nofollow'>
+        <img src='https://mttag.com/banner/3blDq-hFqQg' alt='' width='100%' height='100%' />
+    </a>
+</div>
+
+<!-- 広告4 (左からスライド) -->
+<div id="popup4" class="popup popup-left">
+    <button class="close-btn" onclick="closeAd(4, 'left')">×</button>
+    <a href='https://mttag.com/s/ulsCyyvSxCQ' rel='nofollow'>
+        <img src='https://mttag.com/banner/ulsCyyvSxCQ' alt='' width='100%' height='100%' />
+    </a>
+</div>
+
+<!-- 広告3と広告4を表示するボタン -->
+<button class="show-ad-btn" onclick="triggerAd(3, 'center')">広告3を表示</button>
+<button class="show-ad-btn" onclick="triggerAd(4, 'left')">広告4を表示</button>
+
 </body>
 </html>
